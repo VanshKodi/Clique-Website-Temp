@@ -25,9 +25,11 @@ The site is deployed on Railway from the `main` branch. Railway auto-detects
 the Node.js app, runs `npm install` + `npm run build`, then starts the
 production server with `npm start` (`vite preview --port $PORT`).
 
-The Vite `base` is `'./'` (relative) in [vite.config.ts](vite.config.ts), so
-the build works both at a root domain (Railway) and under a sub-path
-(GitHub Pages). Client-side routes (`/gauntlet`, `/join`, `/people/:slug`)
+The Vite `base` is `'/'` (absolute) in [vite.config.ts](vite.config.ts),
+since Railway and the custom domain serve the app from the domain root.
+(A relative `'./'` base breaks React Router: `BASE_URL` becomes `'./'`,
+which normalizes to basename `'/.'` and matches nothing, leaving a blank
+page.) Client-side routes (`/gauntlet`, `/join`, `/people/:slug`)
 survive a hard refresh via the SPA fallback in `vite preview`.
 
 ### GitHub Pages (legacy)
@@ -35,8 +37,8 @@ survive a hard refresh via the SPA fallback in `vite preview`.
 Live URL: <https://clique-imnu.github.io/Website/>
 
 Because it can be served from the `/Website/` sub-path, the router reads the
-base via `import.meta.env.BASE_URL`. For a custom domain served from the root,
-set `base` back to `'/'`.
+base via `import.meta.env.BASE_URL` (see `getBasename()` in
+[src/main.tsx](src/main.tsx)), which handles `'/'` and `'/Website/'`.
 
 ## Registration form → Google Sheet
 

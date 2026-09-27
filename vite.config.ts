@@ -1,10 +1,11 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-// Relative base so the build works both as a GitHub Pages project site
-// (https://clique-imnu.github.io/Website/) and on Railway (root domain).
+// Railway (and the custom domain) serve the app from the domain root,
+// so use an absolute base. (A relative './' base breaks React Router:
+// BASE_URL becomes './', which normalizes to basename '/.' and matches nothing.)
 export default defineConfig({
-  base: './',
+  base: '/',
   plugins: [react()],
   preview: {
     allowedHosts: ['clique-website-temp-production.up.railway.app', 'cliquetemp.vanshkodi.in'],
