@@ -7,6 +7,6 @@ export default defineConfig({
   base: './',
   plugins: [react()],
   preview: {
-    allowedHosts: ['clique-website-temp-production.up.railway.app', 'cliqueTemp.vanshkodi.in'],
+    allowedHosts: ['clique-website-temp-production.up.railway.app', 'cliquetemp.vanshkodi.in'],
   },
 });
