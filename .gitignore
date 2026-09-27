@@ -13,6 +13,7 @@ club-animated-website-inspiration/
 !.vscode/extensions.json
 .idea
 .claude/
+.opencode/
 
 npm-debug.log*
 yarn-debug.log*

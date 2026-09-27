@@ -40,6 +40,16 @@ button {
 .hover-member-btn:hover { box-shadow: 0 0 40px color-mix(in oklab, var(--accent) 40%, transparent); }
 .hover-lurk:hover { background: #0B0B0B14 !important; }
 
+/* hero poster-drop band: each card keeps its own tilt, straightens on hover */
+.poster-card {
+  rotate: var(--tilt);
+  transition: rotate 0.35s cubic-bezier(0.22, 1, 0.36, 1), translate 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.poster-card:hover {
+  rotate: 0deg;
+  translate: 0 -8px;
+}
+
 /* /join form hierarchy: FIELD LABEL (#F5F3F0, bright) > placeholder (#7A736A, dim
    but readable) > typed text (#F5F3F0). The label is now the most prominent so
    users scan the "FULL NAME" line first, then read the hint. */
@@ -202,4 +212,19 @@ button {
     max-width: 100% !important;
     white-space: normal !important;
   }
+
+  /* Hero poster band: the flanking Spider-Man crops are cropped off-screen on
+     phones, so drop them and let the poster row scroll sideways instead. */
+  [data-band-spidey] { display: none !important; }
+  [data-band-inner] { padding: 22px 18px 16px !important; gap: 16px !important; }
+  [data-band-text] { align-items: center !important; width: 100%; text-align: center; }
+  [data-band-cards] {
+    width: 100% !important;
+    justify-content: flex-start !important;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+  }
+  [data-band-cards]::-webkit-scrollbar { display: none; }
 }

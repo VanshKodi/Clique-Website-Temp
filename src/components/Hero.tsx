@@ -1,4 +1,5 @@
 import type { RefObject } from 'react';
+import { Link } from 'react-router-dom';
 import { TICKER_ITEMS } from '../lib/content';
 
 interface HeroProps {
@@ -220,22 +221,48 @@ export function Hero({ gridRef, heroContentRef, heroCanvasRef }: HeroProps) {
             animation: 'fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 2.55s both',
           }}
         >
-          <p
-            style={{
-              margin: 0,
-              maxWidth: 520,
-              fontFamily: "'Unbounded', sans-serif",
-              fontSize: 'clamp(18px, 1.9vw, 26px)',
-              fontWeight: 800,
-              lineHeight: 1.3,
-              letterSpacing: '-0.005em',
-              color: '#F5F3F0',
-            }}
-          >
-            Stay <span style={{ color: 'var(--accent)' }}>Hungry</span>. Stay{' '}
-            <span style={{ color: 'var(--lime)' }}>Nerdy</span>. Stay{' '}
-            <span style={{ color: 'var(--pink)' }}>Awesome</span>.
-          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 4, maxWidth: 520 }}>
+            <p
+              style={{
+                margin: 0,
+                maxWidth: 520,
+                fontFamily: "'Unbounded', sans-serif",
+                fontSize: 'clamp(18px, 1.9vw, 26px)',
+                fontWeight: 800,
+                lineHeight: 1.3,
+                letterSpacing: '-0.005em',
+                color: '#F5F3F0',
+              }}
+            >
+              Stay <span style={{ color: 'var(--accent)' }}>Hungry</span>. Stay{' '}
+              <span style={{ color: 'var(--lime)' }}>Nerdy</span>. Stay{' '}
+              <span style={{ color: 'var(--pink)' }}>Awesome</span>.
+            </p>
+            <Link
+              to="/gauntlet"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 10,
+                marginTop: 14,
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: 11,
+                letterSpacing: '0.18em',
+                color: '#0B0B0B',
+                background: 'var(--lime)',
+                border: '2px solid #0B0B0B',
+                boxShadow: '4px 4px 0 #00000080',
+                padding: '10px 18px',
+                borderRadius: 100,
+                textDecoration: 'none',
+                fontWeight: 500,
+                width: 'fit-content',
+                rotate: '-1deg',
+              }}
+            >
+              ⚡ ISSUE Nº 01 — THE GAUNTLET IS LIVE →
+            </Link>
+          </div>
           <div
             style={{
               display: 'flex',

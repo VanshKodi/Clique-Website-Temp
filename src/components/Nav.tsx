@@ -1,4 +1,5 @@
 import { forwardRef } from 'react';
+import { Link } from 'react-router-dom';
 import { NAV_LINKS } from '../lib/content';
 import { ThemeSwitcher } from './ThemeSwitcher';
 import { Logo } from './Logo';
@@ -118,6 +119,22 @@ export const Nav = forwardRef<HTMLElement, NavProps>(({ soundEnabled, onToggleSo
       >
         JOIN US
       </a>
+      <Link
+        to="/gauntlet"
+        data-mhide="true"
+        style={{
+          color: 'var(--lime)',
+          border: '1px dashed #FFFFFF33',
+          padding: '8px 16px',
+          borderRadius: 100,
+          textDecoration: 'none',
+          fontWeight: 500,
+          display: 'inline-block',
+          fontSize: 11,
+        }}
+      >
+        ⚡ GAUNTLET
+      </Link>
     </div>
   </nav>
 ));
