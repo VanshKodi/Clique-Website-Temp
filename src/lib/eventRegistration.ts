@@ -24,7 +24,14 @@
 // }
 // ```
 
-export const GAUNTLET_SHEET_WEBHOOK_URL = ''; // <-- paste your Gauntlet Apps Script /exec URL here
+// Secret hygiene: this URL ships inside the client bundle (any visitor can
+// read it in devtools), so keep it OUT of git. Provide it via env instead:
+//   local dev → create `.env.local` (already gitignored via `*.local`):
+//     VITE_GAUNTLET_SHEET_WEBHOOK_URL=https://script.google.com/macros/s/…/exec
+//   Railway   → dashboard → Variables → add the same key (then redeploy).
+const ENV_URL = ((import.meta.env.VITE_GAUNTLET_SHEET_WEBHOOK_URL as string | undefined) ?? '').trim();
+
+export const GAUNTLET_SHEET_WEBHOOK_URL = ENV_URL; // <-- do NOT hardcode the /exec URL here
 
 export interface GauntletRegistration {
   name: string;
