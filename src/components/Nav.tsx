@@ -133,7 +133,7 @@ export const Nav = forwardRef<HTMLElement, NavProps>(({ soundEnabled, onToggleSo
           fontSize: 11,
         }}
       >
-        ⚡ GAUNTLET
+        ⚡ IGNUS
       </Link>
     </div>
   </nav>

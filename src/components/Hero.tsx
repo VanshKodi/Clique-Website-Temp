@@ -260,7 +260,7 @@ export function Hero({ gridRef, heroContentRef, heroCanvasRef }: HeroProps) {
                 rotate: '-1deg',
               }}
             >
-              ⚡ ISSUE Nº 01 — THE GAUNTLET IS LIVE →
+              ⚡ ISSUE Nº 01 — IGNUS IS LIVE →
             </Link>
           </div>
           <div

@@ -3,15 +3,6 @@ import { useClock } from '../hooks/useClock';
 import { ChaiCounter } from './ChaiCounter';
 import { SocialIcon } from './SocialIcon';
 
-const FOOTER_JSON = `{
-  "club": "CLIQUE",
-  "domain": ["IT", "analytics"],
-  "institute": "IMNU",
-  "members": 13,
-  "status": "recruiting",
-  "vibe": "immaculate"
-}`;
-
 export function Footer() {
   const time = useClock();
 
@@ -41,18 +32,6 @@ export function Footer() {
           </span>
         </div>
         <ChaiCounter />
-        <pre
-          style={{
-            margin: '12px 0 0 0',
-            fontFamily: "'JetBrains Mono', monospace",
-            fontSize: 11,
-            lineHeight: 1.8,
-            color: '#5A5248',
-            letterSpacing: '0.02em',
-          }}
-        >
-          {FOOTER_JSON}
-        </pre>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 20 }}>
         <div style={{ display: 'flex', alignItems: 'flex-end', gap: 2, height: 26, opacity: 0.55 }}>

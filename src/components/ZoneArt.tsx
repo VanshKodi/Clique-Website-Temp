@@ -79,6 +79,72 @@ export function ClueCardArt({ size = 84 }: ArtProps) {
   );
 }
 
+// 12-point impact starburst shared by the bidding + fight art.
+const BURST_PATH =
+  'M110,60 L96.7,69.8 L103.3,85 L86.9,86.9 L85,103.3 L69.8,96.7 L60,110 L50.2,96.7 L35,103.3 L33.1,86.9 L16.7,85 L23.3,69.8 L10,60 L23.3,50.2 L16.7,35 L33.1,33.1 L35,16.7 L50.2,23.3 L60,10 L69.8,23.3 L85,16.7 L86.9,33.1 L103.3,35 L96.7,50.2 Z';
+
+// Auction gavel slamming onto a bid coin (Bidding War).
+export function BidArt({ size = 84 }: ArtProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 120 120" fill="none" aria-hidden>
+      <g stroke={OUT} strokeWidth={4} strokeLinejoin="round" strokeLinecap="round">
+        {/* impact burst */}
+        <path d={BURST_PATH} fill="#FF6FB5" />
+        {/* motion dashes */}
+        <path d="M14 26 L26 18" stroke="#4DE8FF" />
+        <path d="M12 40 L28 38" stroke="#4DE8FF" />
+        {/* gavel, mid-slam */}
+        <g transform="rotate(35 60 60)">
+          <rect x="56" y="52" width="8" height="48" rx="4" fill="#F5F3F0" />
+          <rect x="34" y="30" width="52" height="20" rx="6" fill="#4DE8FF" />
+          <rect x="29" y="26" width="9" height="28" rx="4" fill="#4DE8FF" />
+          <rect x="82" y="26" width="9" height="28" rx="4" fill="#4DE8FF" />
+        </g>
+        {/* winning bid coin */}
+        <circle cx="88" cy="94" r="14" fill="#CDFF4D" />
+        <text
+          x="88"
+          y="99"
+          textAnchor="middle"
+          fontSize="17"
+          fontWeight="900"
+          fill={OUT}
+          stroke="none"
+          fontFamily="'JetBrains Mono', monospace"
+        >
+          $
+        </text>
+      </g>
+    </svg>
+  );
+}
+
+// Boxing glove over a burst (Tekken-style fight).
+export function FightArt({ size = 84 }: ArtProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 120 120" fill="none" aria-hidden>
+      <g stroke={OUT} strokeWidth={4} strokeLinejoin="round" strokeLinecap="round">
+        {/* burst */}
+        <path d={BURST_PATH} fill="#CDFF4D" />
+        {/* speed lines */}
+        <path d="M8 52 L22 50" stroke="#4DE8FF" />
+        <path d="M6 66 L20 66" stroke="#4DE8FF" />
+        {/* mitt */}
+        <ellipse cx="60" cy="54" rx="23" ry="21" fill="#FF6FB5" />
+        {/* thumb */}
+        <ellipse cx="80" cy="64" rx="9" ry="7" fill="#FF6FB5" />
+        {/* highlight */}
+        <path d="M48 42 C52 38 58 36 64 36" stroke="#FFFFFF" strokeWidth={3} fill="none" opacity={0.9} />
+        {/* cuff */}
+        <rect x="36" y="72" width="28" height="20" rx="6" fill="#F5F3F0" />
+        <path d="M42 78 L58 78 M42 85 L58 85" strokeWidth={3} />
+        {/* spark */}
+        <path d="M104 16 L107 24 L115 27 L107 30 L104 38 L101 30 L93 27 L101 24 Z" fill="#4DE8FF" strokeWidth={3} />
+      </g>
+    </svg>
+  );
+}
+
 // Beer pong cups with a webbed ping-pong ball (the twist).
 export function PongArt({ size = 84 }: ArtProps) {
   return (

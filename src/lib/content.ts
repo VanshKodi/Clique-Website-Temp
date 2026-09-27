@@ -207,7 +207,7 @@ export const NIRMA_URL = 'https://management.nirmauni.ac.in/student/clique/';
 // Single source of truth for the /gauntlet hero meta pills. Update these
 // when the date / venue / format is locked — GauntletPage reads them.
 export const GAUNTLET_META = {
-  issue: 'ISSUE Nº 01 — THE GAUNTLET',
+  issue: 'ISSUE Nº 01 — IGNUS',
   date: 'TUE · SEP 29 · 11 AM',
   venue: 'CR-4 · IMNU',
   format: 'JUST FOR FUN',

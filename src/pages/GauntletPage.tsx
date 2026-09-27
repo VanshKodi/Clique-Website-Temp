@@ -4,7 +4,7 @@ import { FilmGrain } from '../components/FilmGrain';
 import { Footer } from '../components/Footer';
 import { Logo } from '../components/Logo';
 import { fireConfetti } from '../lib/confetti';
-import { BeanArt, ClueCardArt, SpiderDoodle } from '../components/ZoneArt';
+import { BidArt, ClueCardArt, FightArt, SpiderDoodle } from '../components/ZoneArt';
 import { HeroBanner } from '../components/HeroBanner';
 import { GAUNTLET_META } from '../lib/content';
 import { MEMBERS } from '../lib/members';
@@ -82,7 +82,7 @@ const ROUNDS: Round[] = [
     body: 'Pockets deep. Nerves deeper. Highest number takes it — or does it?',
     points: '≈ 15 MIN',
     quirkClass: 'g-quirk-flip',
-    art: BeanArt,
+    art: BidArt,
   },
   {
     id: 'tk',
@@ -93,7 +93,7 @@ const ROUNDS: Round[] = [
     body: 'Pick your fighter, read your opponent, and take it to the next round — combos, counters and one perfect KO.',
     points: '≈ 10 MIN',
     quirkClass: 'g-quirk-hop',
-    art: BeanArt,
+    art: FightArt,
   },
 ];
 
@@ -243,6 +243,104 @@ function RoundCard({ round }: { round: Round }) {
   );
 }
 
+// Fill-o-meter donut: tracks how much of the form is filled, but never sits
+// still — the needle wobbles ±3% around the true value on a rAF loop, with a
+// slow-spinning dashed orbit ring. Motion-heavy on purpose.
+function HypeDonut({ value }: { value: number }) {
+  const [display, setDisplay] = useState(0);
+  const valueRef = useRef(value);
+
+  useEffect(() => {
+    valueRef.current = value;
+  }, [value]);
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setDisplay(valueRef.current);
+      return;
+    }
+    let raf = 0;
+    let cur = 0;
+    const tick = (t: number) => {
+      const s = t / 1000;
+      const wobble = Math.sin(s * 2.4) * 0.028 + Math.sin(s * 6.1 + 1.3) * 0.014;
+      const target = Math.min(1, Math.max(0, valueRef.current + wobble));
+      cur += (target - cur) * 0.08;
+      setDisplay(cur);
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  const R = 52;
+  const C = 2 * Math.PI * R;
+  const pct = Math.round(display * 100);
+  const status = value >= 1 ? 'LOCKED IN ✦' : value >= 0.5 ? 'COOKING…' : value > 0 ? 'WARMING UP' : 'EMPTY';
+  const statusColor = value >= 1 ? '#4DE8FF' : value >= 0.5 ? '#38BDF8' : '#9A948C';
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, flexShrink: 0 }}>
+      <span style={{ ...mono, fontSize: 10, color: '#6E6862' }}>FILL-O-METER</span>
+      <div style={{ position: 'relative', width: 132, height: 132 }}>
+        <svg viewBox="0 0 132 132" style={{ width: '100%', height: '100%', display: 'block', overflow: 'visible' }}>
+          <defs>
+            <linearGradient id="hypeGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" style={{ stopColor: '#4DE8FF' }} />
+              <stop offset="55%" style={{ stopColor: '#38BDF8' }} />
+              <stop offset="100%" style={{ stopColor: '#2563EB' }} />
+            </linearGradient>
+          </defs>
+          {/* slow-spinning dashed orbit */}
+          <circle
+            className="g-hype-orbit"
+            cx="66"
+            cy="66"
+            r="62"
+            fill="none"
+            stroke="#FFFFFF2A"
+            strokeWidth="1.5"
+            strokeDasharray="4 9"
+            strokeLinecap="round"
+          />
+          {/* track */}
+          <circle cx="66" cy="66" r={R} fill="none" stroke="#FFFFFF14" strokeWidth="11" />
+          {/* wobbling value arc */}
+          <circle
+            cx="66"
+            cy="66"
+            r={R}
+            fill="none"
+            stroke="url(#hypeGrad)"
+            strokeWidth="11"
+            strokeLinecap="round"
+            strokeDasharray={C}
+            strokeDashoffset={C * (1 - display)}
+            transform="rotate(-90 66 66)"
+            style={{ filter: 'drop-shadow(0 0 8px rgba(77, 232, 255, 0.65))' }}
+          />
+        </svg>
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            pointerEvents: 'none',
+          }}
+        >
+          <span style={{ fontFamily: "'Unbounded', sans-serif", fontWeight: 800, fontSize: 24, lineHeight: 1, color: '#F5F3F0' }}>
+            {pct}
+            <span style={{ fontSize: 13 }}>%</span>
+          </span>
+        </div>
+      </div>
+      <span style={{ ...mono, fontSize: 10, color: statusColor }}>{status}</span>
+    </div>
+  );
+}
+
 export function GauntletPage() {
   const successRef = useRef<HTMLHeadingElement>(null);
   const icoCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -335,6 +433,9 @@ export function GauntletPage() {
 
   const nameOk = form.name.trim().length > 1;
   const emailOk = EMAIL_RE.test(form.email.trim());
+  const referralOk = referral.trim().length > 1;
+  // drives the fill-o-meter donut next to the form — name + email carry it, referral tops it off
+  const fillScore = (nameOk ? 0.45 : 0) + (emailOk ? 0.45 : 0) + (referralOk ? 0.1 : 0);
 
   // searchable SCC roster for the referral field — type a few letters, pick a name
   const refMatches = MEMBERS.filter((m) => m.name.toLowerCase().includes(referral.trim().toLowerCase()));
@@ -428,6 +529,8 @@ export function GauntletPage() {
           50% { transform: rotate(5deg); }
         }
         .g-cta { animation: pulseGlow 2.8s ease-in-out infinite; }
+        .g-hype-orbit { transform-box: fill-box; transform-origin: center; animation: hypeSpin 14s linear infinite; }
+        @keyframes hypeSpin { to { transform: rotate(360deg); } }
         .g-zone { transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s, box-shadow 0.3s; }
         .g-zone:hover {
           transform: translateY(-6px);
@@ -465,7 +568,7 @@ export function GauntletPage() {
         }
         @media (prefers-reduced-motion: reduce) {
           .g-quirk-inner { transition: none !important; transform: none !important; }
-          .g-burst, .g-cta, .g-ticker-track { animation: none !important; }
+          .g-burst, .g-cta, .g-ticker-track, .g-hype-orbit { animation: none !important; }
           .g-spider { animation: none !important; }
           .g-zone { transition: none !important; }
           .g-zone:hover { transform: none !important; }
@@ -726,19 +829,24 @@ export function GauntletPage() {
               }}
             >
               <div style={{ position: 'absolute', top: 12, right: 18, ...mono, fontSize: 10, color: '#4A443C' }}>
-                GAUNTLET_v1.0 · PLAYGROUND (trust)
+                IGNUS_v1.0 · PLAYGROUND (trust)
               </div>
               <div style={{ ...mono, fontSize: 12, color: 'var(--accent)', display: 'flex', alignItems: 'center', gap: 12, margin: '6px 0 18px 0' }}>
                 PLAY PASS
                 <span style={{ flex: 1, height: 1, background: '#FFFFFF14' }} />
               </div>
-              <h2 style={{ margin: '0 0 8px 0', fontFamily: "'Unbounded', sans-serif", fontWeight: 800, fontSize: 'clamp(26px, 4vw, 40px)', lineHeight: 1.1 }}>
-                Claim your spot.
-              </h2>
-              <p style={{ margin: '0 0 26px 0', color: '#9A948C', fontSize: 15, lineHeight: 1.65, maxWidth: 480 }}>
-                Just your name, your email, and who told you about us. Takes 10 seconds — the fun lasts way
-                longer.
-              </p>
+              <div style={{ display: 'flex', gap: 24, alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', margin: '0 0 26px 0' }}>
+                <div style={{ flex: '1 1 240px', minWidth: 0 }}>
+                  <h2 style={{ margin: '0 0 8px 0', fontFamily: "'Unbounded', sans-serif", fontWeight: 800, fontSize: 'clamp(26px, 4vw, 40px)', lineHeight: 1.1 }}>
+                    Claim your spot.
+                  </h2>
+                  <p style={{ margin: 0, color: '#9A948C', fontSize: 15, lineHeight: 1.65, maxWidth: 480 }}>
+                    Just your name, your email, and who told you about us. Takes 10 seconds — the fun lasts way
+                    longer.
+                  </p>
+                </div>
+                <HypeDonut value={fillScore} />
+              </div>
 
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))', gap: 16 }}>
                 <div>
@@ -921,7 +1029,7 @@ export function GauntletPage() {
                     fontSize: 11,
                   }}
                 >
-                  <span>★ ADMIT ONE — THE GAUNTLET</span>
+                  <span>★ ADMIT ONE — IGNUS</span>
                   <span>#{ticket?.id}</span>
                 </div>
                 <div style={{ padding: '20px 22px', display: 'grid', gap: 10, fontFamily: "'JetBrains Mono', monospace", fontSize: 12, letterSpacing: '0.06em' }}>

@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react';
 import { POSTERS } from '../lib/content';
 import webPattern from '../assets/banner/web.png';
-import spideyLeft from '../assets/banner/spidey-left.jpg';
+import ironmanLeft from '../assets/banner/ironman-left.png';
 import spideyRight from '../assets/banner/spidey-right.jpg';
 import spiderA from '../assets/banner/spider-a.jpg';
 import spiderB from '../assets/banner/spider-b.jpg';
@@ -59,8 +59,8 @@ export function HeroBanner({ delay = 3 }: HeroBannerProps) {
 
       <img
         data-band-spidey="true"
-        src={spideyLeft}
-        alt=""
+        src={ironmanLeft}
+        alt="Iron Man"
         aria-hidden="true"
         style={{
           position: 'absolute',
@@ -152,14 +152,15 @@ export function HeroBanner({ delay = 3 }: HeroBannerProps) {
             style={{
               fontFamily: "'Unbounded', sans-serif",
               fontWeight: 900,
-              fontSize: 'clamp(34px, 4.6vw, 58px)',
+              fontSize: 'clamp(28px, 3.9vw, 50px)',
               lineHeight: 1,
               letterSpacing: '0.01em',
               color: '#FF3131',
               textShadow: '0 0 14px rgba(255, 49, 49, 0.55), 0 0 46px rgba(224, 27, 36, 0.4)',
+              whiteSpace: 'nowrap',
             }}
           >
-            CLIQUE
+            IGNUS
           </div>
           <div
             style={{

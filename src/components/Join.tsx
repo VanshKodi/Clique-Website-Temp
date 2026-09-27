@@ -168,7 +168,7 @@ export function Join({ joinCanvasRef }: JoinProps) {
         <div style={{ marginTop: 26, fontFamily: "'JetBrains Mono', monospace", fontSize: 12, letterSpacing: '0.14em', color: '#23201C' }}>
           HERE FOR THE SHOWDOWN?{' '}
           <Link to="/gauntlet" style={{ color: '#0B0B0B', fontWeight: 700 }}>
-            ⚡ ENTER THE GAUNTLET →
+            ⚡ ENTER IGNUS →
           </Link>
         </div>
       </div>
