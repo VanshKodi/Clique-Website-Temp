@@ -7,7 +7,7 @@ import { fireConfetti } from '../lib/confetti';
 import { BidArt, ClueCardArt, FightArt, SpiderDoodle } from '../components/ZoneArt';
 import { HeroBanner } from '../components/HeroBanner';
 import { GAUNTLET_META } from '../lib/content';
-import { MEMBERS } from '../lib/members';
+import { GAUNTLET_REFERRALS } from '../lib/members';
 import { buildIcosahedron, drawIcosahedron, sizeCanvasToDisplay } from '../lib/icosahedron';
 import { getStoredAccent } from '../hooks/useAccent';
 import { isGauntletSheetConfigured, submitGauntletRegistration } from '../lib/eventRegistration';
@@ -437,8 +437,8 @@ export function GauntletPage() {
   // drives the fill-o-meter donut next to the form — name + email carry it, referral tops it off
   const fillScore = (nameOk ? 0.45 : 0) + (emailOk ? 0.45 : 0) + (referralOk ? 0.1 : 0);
 
-  // searchable SCC roster for the referral field — type a few letters, pick a name
-  const refMatches = MEMBERS.filter((m) => m.name.toLowerCase().includes(referral.trim().toLowerCase()));
+  // searchable junior roster for the referral field — type a few letters, pick a name
+  const refMatches = GAUNTLET_REFERRALS.filter((m) => m.name.toLowerCase().includes(referral.trim().toLowerCase()));
 
   const set = (key: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm((f) => ({ ...f, [key]: e.target.value }));
@@ -874,7 +874,7 @@ export function GauntletPage() {
                   onKeyDown={(e) => {
                     if (e.key === 'Escape') setRefOpen(false);
                   }}
-                  placeholder="search a member's name… e.g. Dharm"
+                  placeholder="search a member's name… e.g. Harsh"
                   maxLength={60}
                   autoComplete="off"
                   className="join-input"

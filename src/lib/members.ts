@@ -263,3 +263,27 @@ export const memberBySlug = (slug: string): Member | undefined =>
 export const memberIndex = (slug: string): number => MEMBERS.findIndex((m) => m.slug === slug);
 
 export const slugForName = (name: string): string => slugify(name);
+
+// Junior crew shown in the /gauntlet "How did you hear about us?" referral
+// field — kept separate so the main MEMBERS roster (seniors) stays untouched.
+export const GAUNTLET_REFERRALS: Member[] = [
+  'Harsh Patel',
+  'Dinesh Raju S',
+  'Ayush Yadav',
+  'Vansh Kodinariya',
+  'Charu Kotai',
+  'Taruna Agrawal',
+  'Nisarg Modi',
+  'Kavya Bagherwal',
+  'Dhawal Khandelwal',
+  'Drishti Rathod',
+  'Oshoasheesh Keswani',
+  'Utkarsh Mishra',
+].map((name, i) => ({
+  slug: slugify(name),
+  name,
+  nodeNum: i + 1,
+  oneLiner: '',
+  mantra: '',
+  keyValues: {},
+}));
