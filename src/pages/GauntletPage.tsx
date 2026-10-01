@@ -721,8 +721,8 @@ export function GauntletPage() {
         </div>
 
         <p style={{ margin: '12px 0 22px 0', maxWidth: 560, color: '#9A948C', fontSize: 16, lineHeight: 1.65 }}>
-          CLIQUE&apos;s game night — Fall Guys chaos, a Jeopardy board and beer pong with a twist across three play
-          zones. No eliminations, no pressure — just good chaos.
+          CLIQUE&apos;s game night — Family Feud × Who Am I chaos, a Bidding War showdown and Tekken-style
+          fights across three play zones. No eliminations, no pressure — just good chaos.
         </p>
 
         <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 26 }}>
