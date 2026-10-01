@@ -171,6 +171,59 @@ export function PongArt({ size = 84 }: ArtProps) {
   );
 }
 
+// Strange-style amulet seal — an Eye-of-Agamotto-inspired pendant drawn from
+// scratch for the hero: gold outer ring, rune ticks, emerald disc, seeing eye.
+export function AmuletArt({ size = 84 }: ArtProps) {
+  const cx = 60;
+  const cy = 64;
+  const ticks = Array.from({ length: 12 }, (_, i) => (i * Math.PI) / 6);
+  return (
+    <svg width={size} height={size} viewBox="0 0 120 128" fill="none" aria-hidden>
+      {/* pendant loop */}
+      <circle cx={cx} cy={8} r={6} stroke="#E7C44A" strokeWidth={4} />
+      <path d={`M${cx} 14 L${cx} 20`} stroke="#E7C44A" strokeWidth={4} strokeLinecap="round" />
+      {/* rune ticks */}
+      {ticks.map((a, i) => (
+        <line
+          key={i}
+          x1={cx + Math.cos(a) * 50}
+          y1={cy + Math.sin(a) * 50}
+          x2={cx + Math.cos(a) * 56}
+          y2={cy + Math.sin(a) * 56}
+          stroke="#4ADE80"
+          strokeWidth={3}
+          strokeLinecap="round"
+          opacity={0.9}
+        />
+      ))}
+      {/* outer + inner rings */}
+      <circle cx={cx} cy={cy} r={44} stroke="#E7C44A" strokeWidth={5} />
+      <circle cx={cx} cy={cy} r={36} stroke="#4ADE80" strokeWidth={2.5} strokeDasharray="5 6" strokeLinecap="round" />
+      {/* emerald disc */}
+      <circle cx={cx} cy={cy} r={29} fill="#0B2E1B" stroke="#E7C44A" strokeWidth={3} />
+      {/* seeing eye */}
+      <path
+        d={`M${cx - 22},${cy} Q${cx},${cy - 16} ${cx + 22},${cy} Q${cx},${cy + 16} ${cx - 22},${cy} Z`}
+        fill="#EAF6EC"
+        stroke="#07130D"
+        strokeWidth={3}
+        strokeLinejoin="round"
+      />
+      <circle cx={cx} cy={cy} r={9} fill="#4ADE80" stroke="#07130D" strokeWidth={3} />
+      <circle cx={cx} cy={cy} r={4} fill="#07130D" />
+      <circle cx={cx + 3} cy={cy - 3} r={1.6} fill="#EAF6EC" stroke="none" />
+      {/* base diamond */}
+      <path
+        d={`M${cx},${cy + 46} l7,9 l-7,9 l-7,-9 Z`}
+        fill="#4ADE80"
+        stroke="#07130D"
+        strokeWidth={3}
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 // Spider hanging on a thread — a little Spider-Verse doodle for the hero.
 export function SpiderDoodle({ size = 96 }: ArtProps) {
   return (

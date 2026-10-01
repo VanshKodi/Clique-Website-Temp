@@ -4,7 +4,7 @@ import { FilmGrain } from '../components/FilmGrain';
 import { Footer } from '../components/Footer';
 import { Logo } from '../components/Logo';
 import { fireConfetti } from '../lib/confetti';
-import { BidArt, ClueCardArt, FightArt, SpiderDoodle } from '../components/ZoneArt';
+import { AmuletArt, BidArt, ClueCardArt, FightArt } from '../components/ZoneArt';
 import ignusRemastered from '../assets/banner/ignus-remastered.png';
 import ignusPosterFull from '../assets/banner/ignus-poster-full.png';
 import { GAUNTLET_META } from '../lib/content';
@@ -14,16 +14,16 @@ import { isGauntletSheetConfigured, submitGauntletRegistration } from '../lib/ev
 import { useMagnetic } from '../hooks/useMagnetic';
 import { useScramble } from '../hooks/useScramble';
 
-// IGNUS forge palette — scoped to /gauntlet only, so the rest of CLIQUE keeps
-// its black/cyan std theme. Ember orange = primary, molten gold = secondary,
-// inferno red = danger/fight.
+// DOOM vault palette (green, first poster) — scoped to /gauntlet only, so the
+// rest of CLIQUE keeps its black/cyan std theme. Rune emerald = primary, Doom
+// gold = secondary, venom lime = fight.
 const IGNUS = {
-  ember: '#FF6B1A',
-  gold: '#FFC93C',
-  inferno: '#FF3D2E',
-  blood: '#C1121F',
-  coal: '#160603',
-  ash: '#F5EDE4',
+  ember: '#4ADE80',
+  gold: '#E7C44A',
+  inferno: '#A3E635',
+  blood: '#14532D',
+  coal: '#07120C',
+  ash: '#EAF6EC',
 } as const;
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -44,14 +44,14 @@ const fieldLabel: CSSProperties = {
   marginBottom: 10,
 };
 
-// IGNUS inputs — forge coal, ember dashed border.
+// Vault inputs — deep moss, rune dashed border.
 const inputStyle: CSSProperties = {
   width: '100%',
   boxSizing: 'border-box',
-  background: '#1A0805',
-  border: '1px dashed #FF6B1A44',
+  background: '#0A1A10',
+  border: '1px dashed #4ADE8044',
   borderRadius: 12,
-  color: '#F5EDE4',
+  color: '#EAF6EC',
   fontFamily: "'Space Grotesk', sans-serif",
   fontSize: 15,
   padding: '13px 16px',
@@ -79,9 +79,9 @@ const ROUNDS: Round[] = [
     chip: 'FEUD × WHO AM I',
     chipColor: IGNUS.gold,
     title: 'Zone 01 — Family Feud × Who Am I',
-    tag: 'survey says… forge your answer ✦',
-    body: 'Survey-style showdown meets guess-who chaos — rank the top answers, then figure out who you are from the clues stuck on your back. Wrong guess? Into the forge.',
-    points: '≈ 15 MIN · KINDLING',
+    tag: 'survey says… seal the sigil ✦',
+    body: 'Survey-style showdown meets guess-who chaos — rank the top answers, then figure out who you are from the clues stuck on your back. Wrong guess? The cloak takes you.',
+    points: '≈ 15 MIN · CANTRIP',
     quirkClass: 'g-quirk-blob',
     art: ClueCardArt,
   },
@@ -91,8 +91,8 @@ const ROUNDS: Round[] = [
     chipColor: IGNUS.inferno,
     title: 'Zone 02 — Tekken-Style Fight',
     tag: 'round 1… fight! ✦',
-    body: 'Pick your fighter, read your opponent, and take it to the next round in the pit — combos, counters and one perfect KO to claim the flame.',
-    points: '≈ 10 MIN · BLAZE',
+    body: 'Pick your fighter, read your opponent, and take it to the next round in the arena — combos, counters and one perfect KO to claim Doom’s favor.',
+    points: '≈ 10 MIN · HEX',
     quirkClass: 'g-quirk-hop',
     art: FightArt,
   },
@@ -101,36 +101,36 @@ const ROUNDS: Round[] = [
     chip: 'BIDDING WAR',
     chipColor: IGNUS.ember,
     title: 'Zone 03 — Bidding War',
-    tag: 'raise the flame ✦',
-    body: 'Pockets deep. Nerves deeper. Bid ember-coins for the relic — highest flame takes it. Overspend and you get burned.',
-    points: '≈ 15 MIN · STOKE',
+    tag: 'raise the runes ✦',
+    body: 'Pockets deep. Nerves deeper. Bid rune-shards for the relic — highest seal takes it. Overspend and the spell backfires.',
+    points: '≈ 15 MIN · RITUAL',
     quirkClass: 'g-quirk-flip',
     art: BidArt,
   },
 ];
 
 // Same [threshold, label] shape as AURA_RANKS in JoinPage — we pick one at
-// random for the forge ticket instead of scoring it.
+// random for the vault ticket instead of scoring it.
 const RANKS: [number, string][] = [
-  [1, 'FLAMEKEEPER SUPREME ✦'],
-  [0.8, 'EMBER ARCHITECT'],
-  [0.6, 'FORGE REGULAR'],
-  [0.4, 'KINDLING CARRIER'],
-  [0.2, 'SPARK SEEKER'],
-  [0, 'COLD HANDS, WARM HEART'],
+  [1, 'DOOM’S CHOSEN ✦'],
+  [0.8, 'CLOAKBEARER'],
+  [0.6, 'RUNE KEEPER'],
+  [0.4, 'VAULT INITIATE'],
+  [0.2, 'CURIOUS APPRENTICE'],
+  [0, 'LATVERIAN TOURIST'],
 ];
 
-const HEADLINE = 'Enter the forge.';
+const HEADLINE = 'Enter the sanctum.';
 const splitWords = (s: string) => s.split(' ');
 
-const SENDING_LINES = ['STOKING THE FORGE…', 'POURING THE EMBER…', 'STAMPING YOUR PASS…'];
+const SENDING_LINES = ['CONSULTING THE ORACLE…', 'ETCHING THE RUNES…', 'SEALING YOUR FATE…'];
 
 const TICKER: { text: string; color: string }[] = [
-  { text: 'EMBER TRIAL', color: IGNUS.ember },
+  { text: 'DOOM DECREE', color: IGNUS.ember },
   { text: 'FAMILY FEUD × WHO AM I', color: IGNUS.gold },
   { text: 'TEKKEN-STYLE FIGHT', color: IGNUS.inferno },
   { text: 'BIDDING WAR', color: IGNUS.ember },
-  { text: 'FORGED IN FIRE', color: IGNUS.gold },
+  { text: 'WEAVE THE SPELL', color: IGNUS.gold },
   { text: 'SAT · OCT 3', color: IGNUS.ember },
 ];
 
@@ -192,9 +192,9 @@ function RoundCard({ round }: { round: Round }) {
               style={{
                 ...mono,
                 fontSize: 10,
-                color: '#1A0A06',
+                color: '#07130D',
                 background: round.chipColor,
-                border: '2px solid #1A0A06',
+                border: '2px solid #07130D',
                 boxShadow: '3px 3px 0 #00000080',
                 borderRadius: 100,
                 padding: '6px 12px',
@@ -250,7 +250,7 @@ function RoundCard({ round }: { round: Round }) {
             <span style={{ minWidth: 0 }}>{round.chip}</span>
             <span style={{ flex: '1 0 24px', height: 1, background: '#FFFFFF14' }} />
           </div>
-          <p style={{ margin: 0, color: '#F5EDE4', fontSize: 14, lineHeight: 1.6, flex: 1, overflowY: 'auto', minHeight: 0 }}>
+          <p style={{ margin: 0, color: '#EAF6EC', fontSize: 14, lineHeight: 1.6, flex: 1, overflowY: 'auto', minHeight: 0 }}>
             {round.body}
           </p>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, flexWrap: 'wrap' }}>
@@ -275,8 +275,8 @@ function RoundCard({ round }: { round: Round }) {
   );
 }
 
-// Forge-o-meter donut (IGNUS): tracks how much of the form is filled —
-// ember wobble ±3%, slow-spinning dashed orbit. Motion-heavy on purpose.
+// Rune-o-meter donut (DOOM): tracks how much of the form is filled —
+// rune wobble ±3%, slow-spinning dashed orbit. Motion-heavy on purpose.
 function HypeDonut({ value }: { value: number }) {
   const [display, setDisplay] = useState(0);
   const valueRef = useRef(value);
@@ -307,12 +307,12 @@ function HypeDonut({ value }: { value: number }) {
   const R = 52;
   const C = 2 * Math.PI * R;
   const pct = Math.round(display * 100);
-  const status = value >= 1 ? 'FORGED ✦' : value >= 0.5 ? 'HEATING…' : value > 0 ? 'KINDLING' : 'COLD FORGE';
+  const status = value >= 1 ? 'BOUND ✦' : value >= 0.5 ? 'AWAKENING…' : value > 0 ? 'STIRRING' : 'DORMANT';
   const statusColor = value >= 1 ? IGNUS.gold : value >= 0.5 ? IGNUS.ember : '#9A948C';
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, flexShrink: 0 }}>
-      <span style={{ ...mono, fontSize: 10, color: '#6E6862' }}>FORGE-O-METER</span>
+      <span style={{ ...mono, fontSize: 10, color: '#6E6862' }}>RUNE-O-METER</span>
       <div style={{ position: 'relative', width: 132, height: 132 }}>
         <svg viewBox="0 0 132 132" style={{ width: '100%', height: '100%', display: 'block', overflow: 'visible' }}>
           <defs>
@@ -348,7 +348,7 @@ function HypeDonut({ value }: { value: number }) {
             strokeDasharray={C}
             strokeDashoffset={C * (1 - display)}
             transform="rotate(-90 66 66)"
-            style={{ filter: 'drop-shadow(0 0 8px rgba(255, 107, 26, 0.65))' }}
+            style={{ filter: 'drop-shadow(0 0 8px rgba(74, 222, 128, 0.6))' }}
           />
         </svg>
         <div
@@ -424,7 +424,7 @@ export function GauntletPage() {
     window.scrollTo(0, 0);
   }, []);
 
-  // slow-spinning ember wireframe behind the hero — IGNUS forge, not CLIQUE cyan
+  // slow-spinning rune wireframe behind the hero — DOOM vault green, not CLIQUE cyan
   useEffect(() => {
     const canvas = icoCanvasRef.current;
     if (!canvas) return;
@@ -465,7 +465,7 @@ export function GauntletPage() {
   const nameOk = form.name.trim().length > 1;
   const emailOk = EMAIL_RE.test(form.email.trim());
   const referralOk = referral.trim().length > 1;
-  // drives the fill-o-meter donut next to the form — name + email carry it, referral tops it off
+  // drives the rune-o-meter donut next to the form — name + email carry it, referral tops it off
   const fillScore = (nameOk ? 0.45 : 0) + (emailOk ? 0.45 : 0) + (referralOk ? 0.1 : 0);
 
   // searchable junior roster for the referral field — type a few letters, pick a name
@@ -514,12 +514,12 @@ export function GauntletPage() {
       style={
         {
           minHeight: '100vh',
-          background: `radial-gradient(1200px 600px at 85% -10%, #3A0E04 0%, transparent 60%), radial-gradient(900px 500px at 0% 20%, #2A0A05 0%, transparent 55%), radial-gradient(700px 700px at 50% 110%, #4A0F06 0%, transparent 60%), ${IGNUS.coal}`,
+          background: `radial-gradient(1200px 600px at 85% -10%, #0F3A22 0%, transparent 60%), radial-gradient(900px 500px at 0% 20%, #0A2417 0%, transparent 55%), radial-gradient(700px 700px at 50% 110%, #123F24 0%, transparent 60%), ${IGNUS.coal}`,
           color: IGNUS.ash,
           fontFamily: "'Space Grotesk', sans-serif",
           overflow: 'clip',
           position: 'relative',
-          // scope IGNUS vars so every var(--accent/lime/pink) inside = forge palette
+          // scope vault vars so every var(--accent/lime/pink) inside = doom green palette
           '--accent': IGNUS.ember,
           '--lime': IGNUS.gold,
           '--pink': IGNUS.inferno,
@@ -527,7 +527,7 @@ export function GauntletPage() {
       }
     >
       <FilmGrain />
-      {/* ember dust layer + forge glow — replaces CLIQUE halftone/cyan glow */}
+      {/* rune dust layer + vault glow — replaces CLIQUE halftone/cyan glow */}
       <div
         aria-hidden
         style={{
@@ -535,7 +535,7 @@ export function GauntletPage() {
           inset: 0,
           pointerEvents: 'none',
           opacity: 0.5,
-          backgroundImage: 'radial-gradient(#FF6B1A22 1px, transparent 1.6px)',
+          backgroundImage: 'radial-gradient(#4ADE8022 1px, transparent 1.6px)',
           backgroundSize: '18px 18px',
         }}
       />
@@ -548,7 +548,7 @@ export function GauntletPage() {
           width: 560,
           height: 560,
           borderRadius: '50%',
-          background: 'radial-gradient(circle, #FF6B1A2E, transparent 70%)',
+          background: 'radial-gradient(circle, #4ADE802E, transparent 70%)',
           filter: 'blur(70px)',
           pointerEvents: 'none',
         }}
@@ -562,7 +562,7 @@ export function GauntletPage() {
           width: 520,
           height: 520,
           borderRadius: '50%',
-          background: 'radial-gradient(circle, #C1121F33, transparent 70%)',
+          background: 'radial-gradient(circle, #14532D55, transparent 70%)',
           filter: 'blur(80px)',
           pointerEvents: 'none',
         }}
@@ -658,17 +658,17 @@ export function GauntletPage() {
               ...mono,
               fontSize: 11,
               fontWeight: 700,
-              color: '#1A0A06',
-              background: 'linear-gradient(135deg, #FFC93C, #FF6B1A)',
+              color: '#07130D',
+              background: 'linear-gradient(135deg, #E7C44A, #4ADE80)',
               padding: '10px 20px',
               borderRadius: 100,
               textDecoration: 'none',
               display: 'inline-block',
               willChange: 'translate',
-              boxShadow: '0 0 18px #FF6B1A44',
+              boxShadow: '0 0 18px #4ADE8044',
             }}
           >
-            ENTER FORGE →
+            ENTER VAULT →
           </a>
         </div>
       </div>
@@ -691,26 +691,38 @@ export function GauntletPage() {
         >
           <canvas ref={icoCanvasRef} style={{ width: '100%', height: '100%' }} />
         </div>
-        {/* spider doodle hanging in the hero */}
+        {/* strange-style amulet hanging on a thread, swinging like the old spider */}
         <div
           data-mhide="true"
           aria-hidden
           className="g-spider"
           style={{
             position: 'absolute',
-            top: 110,
+            top: 64,
             right: '2%',
-            opacity: 0.85,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            opacity: 0.9,
             pointerEvents: 'none',
+            filter: 'drop-shadow(0 0 14px rgba(74, 222, 128, 0.35))',
           }}
         >
-          <SpiderDoodle size={64} />
+          <div
+            aria-hidden
+            style={{
+              width: 0,
+              height: 54,
+              borderLeft: '3px dashed rgba(231, 196, 74, 0.7)',
+            }}
+          />
+          <AmuletArt size={76} />
         </div>
-        {/* hero — IGNUS forge trial */}
+        {/* hero — DOOM vault trial */}
         <div style={{ ...mono, fontSize: 12, color: 'var(--accent)', display: 'flex', alignItems: 'center', gap: 12, animation: 'fadeUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) both' }}>
           {GAUNTLET_META.issue}
-          <span style={{ width: 34, height: 1, background: '#FF6B1A66', display: 'inline-block' }} />
-          FORGE TRIAL · FRIENDS ONLY
+          <span style={{ width: 34, height: 1, background: '#4ADE8066', display: 'inline-block' }} />
+          ARCANE TRIAL · FRIENDS ONLY
           <span style={{ animation: 'blink 1.1s step-end infinite' }}>_</span>
           {!isGauntletSheetConfigured() && (
             <span style={{ marginLeft: 'auto', fontSize: 10, color: '#6E6862', border: '1px dashed #FFFFFF33', borderRadius: 100, padding: '4px 10px' }}>
@@ -739,7 +751,7 @@ export function GauntletPage() {
                     style={{
                       display: 'inline-block',
                       animation: `heroRise 0.85s cubic-bezier(0.22, 1, 0.36, 1) ${(wi * 0.14 + ci * 0.045).toFixed(3)}s both`,
-                      color: word === 'forge.' ? 'var(--accent)' : word === 'the' ? 'var(--lime)' : undefined,
+                      color: word === 'sanctum.' ? 'var(--accent)' : word === 'the' ? 'var(--lime)' : undefined,
                     }}
                   >
                     {ch}
@@ -754,26 +766,26 @@ export function GauntletPage() {
               top: -14,
               right: -16,
               rotate: '8deg',
-              background: 'linear-gradient(135deg, #FFC93C, #FF6B1A)',
-              color: '#1A0A06',
+              background: 'linear-gradient(135deg, #E7C44A, #4ADE80)',
+              color: '#07130D',
               fontFamily: "'Shantell Sans', cursive",
               fontWeight: 700,
               fontSize: 13,
               padding: '7px 14px',
               borderRadius: 100,
-              border: '2px solid #1A0A06',
-              boxShadow: '4px 4px 0 #00000080, 0 0 22px #FF6B1A55',
+              border: '2px solid #07130D',
+              boxShadow: '4px 4px 0 #00000080, 0 0 22px #4ADE8055',
               animation: 'fadeUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.4s both',
               whiteSpace: 'nowrap',
             }}
           >
-            <span style={{ display: 'inline-block', animation: 'wiggle 3s ease-in-out infinite' }}>forged in fire ✦</span>
+            <span style={{ display: 'inline-block', animation: 'wiggle 3s ease-in-out infinite' }}>doom has spoken ✦</span>
           </div>
         </div>
 
-        <p style={{ margin: '12px 0 22px 0', maxWidth: 580, color: '#C9BBAE', fontSize: 16, lineHeight: 1.65 }}>
-          Step into the forge — three ember trials: a Family Feud × Who Am I kindling round, an ember-coin
-          Bidding War stoke, and a Tekken-style blaze in the pit. No eliminations, no pressure — feed the flame.
+        <p style={{ margin: '12px 0 22px 0', maxWidth: 580, color: '#B7CFC0', fontSize: 16, lineHeight: 1.65 }}>
+          Doom has opened the vault — three arcane trials: a Family Feud × Who Am I cantrip, a rune-shard
+          Bidding War ritual, and a Tekken-style hex in the arena. No eliminations, no pressure — weave the spell.
         </p>
 
         <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 26 }}>
@@ -783,7 +795,7 @@ export function GauntletPage() {
         </div>
 
         <div ref={burstWrapRef} style={{ display: 'flex', alignItems: 'center', gap: 20, flexWrap: 'wrap', marginBottom: 54 }}>
-          {/* forge burst — pure CSS, no image asset */}
+          {/* doom seal burst — pure CSS, no image asset */}
           <div
             aria-hidden
             className="g-burst"
@@ -793,10 +805,10 @@ export function GauntletPage() {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              background: 'linear-gradient(135deg, #FFC93C, #FF6B1A 55%, #C1121F)',
+              background: 'linear-gradient(135deg, #E7C44A, #4ADE80 55%, #14532D)',
               clipPath: BURST_CLIP,
               rotate: '12deg',
-              color: '#1A0A06',
+              color: '#07130D',
               fontFamily: "'JetBrains Mono', monospace",
               fontWeight: 700,
               fontSize: 13,
@@ -805,25 +817,25 @@ export function GauntletPage() {
               lineHeight: 1.1,
               padding: 18,
               boxSizing: 'border-box',
-              boxShadow: '0 0 28px #FF6B1A55',
+              boxShadow: '0 0 28px #4ADE8055',
             }}
           >
-            FORGE
+            DOOM
           </div>
-          <div style={{ ...mono, fontSize: 11, color: '#C9BBAE', letterSpacing: '0.18em' }}>
-            THREE TRIALS · ONE FLAME
+          <div style={{ ...mono, fontSize: 11, color: '#B7CFC0', letterSpacing: '0.18em' }}>
+            THREE TRIALS · ONE DOOM
           </div>
         </div>
 
         {/* NEW POSTER DROP — IGNUS remastered banner (old HeroBanner moved to bottom) */}
         <div
           style={{
-            border: '1px dashed #FF6B1A44',
+            border: '1px dashed #4ADE8044',
             borderRadius: 22,
             overflow: 'hidden',
-            background: '#1F0B06',
+            background: '#0B1F14',
             marginBottom: 54,
-            boxShadow: '0 18px 60px #00000088, 0 0 40px #FF6B1A22',
+            boxShadow: '0 18px 60px #00000088, 0 0 40px #4ADE8022',
           }}
         >
           <img
@@ -833,13 +845,13 @@ export function GauntletPage() {
           />
         </div>
 
-        {/* marquee strip — ember */}
+        {/* marquee strip — vault green */}
         <div
           style={{
-            borderTop: '1px dashed #FF6B1A44',
-            borderBottom: '1px dashed #FF6B1A44',
+            borderTop: '1px dashed #4ADE8044',
+            borderBottom: '1px dashed #4ADE8044',
             overflow: 'hidden',
-            background: 'linear-gradient(90deg, #1F0B06, #2A0E06 50%, #1F0B06)',
+            background: 'linear-gradient(90deg, #0B1F14, #0E2A1A 50%, #0B1F14)',
             padding: '12px 0',
             margin: '0 0 54px 0',
           }}
@@ -871,9 +883,9 @@ export function GauntletPage() {
 
         {/* trials */}
         <div style={{ ...mono, fontSize: 12, color: 'var(--accent)', display: 'flex', alignItems: 'center', gap: 12, marginBottom: 18 }}>
-          THE THREE FORGES
-          <span style={{ flex: 1, height: 1, background: '#FF6B1A33' }} />
-          <span style={{ fontSize: 9, color: '#8A7A6E' }}>HOVER / TAP A CARD →</span>
+          THE THREE TRIALS
+          <span style={{ flex: 1, height: 1, background: '#4ADE8033' }} />
+          <span style={{ fontSize: 9, color: '#7A9187' }}>HOVER / TAP A CARD →</span>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16, marginBottom: 60 }}>
           {ROUNDS.map((round, i) => (
@@ -886,35 +898,35 @@ export function GauntletPage() {
           ))}
         </div>
 
-        {/* register — forge entry */}
+        {/* register — vault entry */}
         <div id="register" style={{ scrollMarginTop: 90 }}>
           {status !== 'done' ? (
             <div
               style={{
-                border: '1px solid #FF6B1A33',
+                border: '1px solid #4ADE8033',
                 borderRadius: 22,
-                background: 'linear-gradient(180deg, #2A0E06, #1A0805)',
+                background: 'linear-gradient(180deg, #0E2A1A, #0A1A10)',
                 backdropFilter: 'blur(14px)',
                 padding: 'clamp(22px, 4vw, 40px)',
                 position: 'relative',
                 animation: 'fadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both',
-                boxShadow: '0 18px 60px #00000088, inset 0 1px 0 #FF6B1A22',
+                boxShadow: '0 18px 60px #00000088, inset 0 1px 0 #4ADE8022',
               }}
             >
-              <div style={{ position: 'absolute', top: 12, right: 18, ...mono, fontSize: 10, color: '#8A6A55' }}>
-                IGNUS_v1.0 · FORGE ENTRY
+              <div style={{ position: 'absolute', top: 12, right: 18, ...mono, fontSize: 10, color: '#7A8F7E' }}>
+                IGNUS_v1.0 · VAULT ENTRY
               </div>
               <div style={{ ...mono, fontSize: 12, color: 'var(--accent)', display: 'flex', alignItems: 'center', gap: 12, margin: '6px 0 18px 0' }}>
-                FORGE PASS
-                <span style={{ flex: 1, height: 1, background: '#FF6B1A33' }} />
+                ARCANE PASS
+                <span style={{ flex: 1, height: 1, background: '#4ADE8033' }} />
               </div>
               <div style={{ display: 'flex', gap: 24, alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', margin: '0 0 26px 0' }}>
                 <div style={{ flex: '1 1 240px', minWidth: 0 }}>
                   <h2 style={{ margin: '0 0 8px 0', fontFamily: "'Unbounded', sans-serif", fontWeight: 800, fontSize: 'clamp(26px, 4vw, 40px)', lineHeight: 1.1 }}>
-                    Claim your ember.
+                    Claim your rune.
                   </h2>
-                  <p style={{ margin: 0, color: '#C9BBAE', fontSize: 15, lineHeight: 1.65, maxWidth: 480 }}>
-                    Just your name, your email, and who led you to the flame. Takes 10 seconds — the forge
+                  <p style={{ margin: 0, color: '#B7CFC0', fontSize: 15, lineHeight: 1.65, maxWidth: 480 }}>
+                    Just your name, your email, and who led you to the vault. Takes 10 seconds — Doom
                     remembers longer.
                   </p>
                 </div>
@@ -1015,9 +1027,9 @@ export function GauntletPage() {
                   className="g-cta"
                   style={{
                     cursor: 'pointer',
-                    background: 'linear-gradient(135deg, #FFC93C, #FF6B1A 60%, #C1121F)',
-                    color: '#1A0A06',
-                    border: '2px solid #1A0A06',
+                    background: 'linear-gradient(135deg, #E7C44A, #4ADE80 60%, #14532D)',
+                    color: '#07130D',
+                    border: '2px solid #07130D',
                     ...mono,
                     fontSize: 13,
                     fontWeight: 700,
@@ -1026,38 +1038,38 @@ export function GauntletPage() {
                     willChange: 'translate',
                     opacity: status === 'sending' ? 0.75 : 1,
                     minWidth: 260,
-                    boxShadow: '4px 4px 0 #00000080, 0 0 26px #FF6B1A55',
+                    boxShadow: '4px 4px 0 #00000080, 0 0 26px #4ADE8055',
                   }}
                 >
-                  {status === 'sending' ? SENDING_LINES[sendLine] : 'ENTER THE FORGE →'}
+                  {status === 'sending' ? SENDING_LINES[sendLine] : 'ENTER THE VAULT →'}
                 </button>
-                <span style={{ ...mono, fontSize: 10, color: '#8A7A6E' }}>NO SPAM. ONLY EMBERS.</span>
+                <span style={{ ...mono, fontSize: 10, color: '#7A9187' }}>NO SPAM. ONLY SPELLS.</span>
               </div>
             </div>
           ) : (
-            /* ticket confirmation — forged */
+            /* ticket confirmation — bound */
             <div style={{ textAlign: 'center', paddingTop: '2vh' }}>
               <div
                 style={{
                   width: 'fit-content',
                   margin: '0 auto 26px auto',
                   rotate: '-3deg',
-                  background: 'linear-gradient(135deg, #FFC93C, #FF6B1A)',
-                  color: '#1A0A06',
+                  background: 'linear-gradient(135deg, #E7C44A, #4ADE80)',
+                  color: '#07130D',
                   fontFamily: "'Shantell Sans', cursive",
                   fontWeight: 700,
                   fontSize: 14,
                   padding: '8px 16px',
                   borderRadius: 100,
-                  border: '2px solid #1A0A06',
-                  boxShadow: '4px 4px 0 #00000080, 0 0 22px #FF6B1A55',
+                  border: '2px solid #07130D',
+                  boxShadow: '4px 4px 0 #00000080, 0 0 22px #4ADE8055',
                   animation: 'fadeUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both',
                 }}
               >
-                forge pass: stamped ✦
+                vault pass: sealed ✦
               </div>
               <div style={{ ...mono, fontSize: 12, color: 'var(--lime)', marginBottom: 24 }}>
-                STATUS: FORGED ✦ TICKET #{ticket?.id}
+                STATUS: BOUND ✦ TICKET #{ticket?.id}
               </div>
               <h1
                 ref={successRef}
@@ -1072,20 +1084,21 @@ export function GauntletPage() {
               >
                 You&apos;re in.
               </h1>
-              <p style={{ margin: '24px auto 36px auto', maxWidth: 440, color: '#C9BBAE', fontSize: 16, lineHeight: 1.65 }}>
-                Flash this ticket at the forge gate. {GAUNTLET_META.venue} — don&apos;t be late, the flame waits
+              <p style={{ margin: '24px auto 36px auto', maxWidth: 440, color: '#B7CFC0', fontSize: 16, lineHeight: 1.65 }}>
+                Flash this ticket at the vault gate. {GAUNTLET_META.venue} — don&apos;t be late, Doom waits
                 for no one.
               </p>
-              {/* player ticket — ember */}
+
+              {/* player ticket — vault green */}
               <div
                 style={{
                   margin: '0 auto 40px auto',
                   maxWidth: 520,
-                  background: '#F5EDE4',
-                  color: '#1A0A06',
+                  background: '#EAF6EC',
+                  color: '#07130D',
                   borderRadius: 18,
-                  border: '2px solid #1A0A06',
-                  boxShadow: '6px 6px 0 #00000080, 0 0 32px #FF6B1A33',
+                  border: '2px solid #07130D',
+                  boxShadow: '6px 6px 0 #00000080, 0 0 32px #4ADE8033',
                   overflow: 'hidden',
                   textAlign: 'left',
                   rotate: '-1deg',
@@ -1097,8 +1110,8 @@ export function GauntletPage() {
                     justifyContent: 'space-between',
                     alignItems: 'center',
                     padding: '14px 20px',
-                    background: 'linear-gradient(90deg, #1A0805, #4A0F06)',
-                    color: '#FFC93C',
+                    background: 'linear-gradient(90deg, #0A1A10, #123F24)',
+                    color: '#E7C44A',
                     ...mono,
                     fontSize: 11,
                   }}
@@ -1162,10 +1175,10 @@ export function GauntletPage() {
         <div
           style={{
             marginTop: 60,
-            border: '1px dashed #FFFFFF33',
+            border: '1px dashed #4ADE8044',
             borderRadius: 22,
             overflow: 'hidden',
-            background: '#0A0406',
+            background: '#060F0A',
           }}
         >
           <img
