@@ -213,18 +213,20 @@ button {
     white-space: normal !important;
   }
 
-  /* Hero poster band: the flanking Spider-Man crops are cropped off-screen on
-     phones, so drop them and let the poster row scroll sideways instead. */
+  /* Hero poster band: flanking art hidden on phones, cards shrink in one row
+     like the top banner image — no sideways scroll, no clipping. */
   [data-band-spidey] { display: none !important; }
-  [data-band-inner] { padding: 22px 18px 16px !important; gap: 16px !important; }
-  [data-band-text] { align-items: center !important; width: 100%; text-align: center; }
+  [data-band] { overflow: hidden !important; max-width: 100% !important; }
+  [data-band-inner] { padding: 22px 14px 16px !important; gap: 14px !important; max-width: 100% !important; }
+  [data-band-text] { align-items: center !important; width: 100%; max-width: 100%; text-align: center; overflow-wrap: anywhere; }
   [data-band-cards] {
     width: 100% !important;
-    justify-content: flex-start !important;
-    overflow-x: auto;
-    scrollbar-width: none;
-    padding-bottom: 4px;
-    -webkit-overflow-scrolling: touch;
+    max-width: 100% !important;
+    justify-content: center !important;
+    flex-wrap: nowrap !important;
+    overflow: hidden !important;
+    gap: 8px !important;
+    min-width: 0 !important;
   }
   [data-band-cards]::-webkit-scrollbar { display: none; }
 }

@@ -208,8 +208,8 @@ export const NIRMA_URL = 'https://management.nirmauni.ac.in/student/clique/';
 // when the date / venue / format is locked — GauntletPage reads them.
 export const GAUNTLET_META = {
   issue: 'ISSUE Nº 01 — IGNUS',
-  date: 'TUE · SEP 29 · 11 AM',
-  venue: 'CR-4 · IMNU',
+  date: 'SAT · OCT 3 · TIME TBA',
+  venue: 'VENUE TBA',
   format: 'JUST FOR FUN',
 };
 

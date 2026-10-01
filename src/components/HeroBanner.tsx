@@ -136,18 +136,15 @@ export function HeroBanner({ delay = 3 }: HeroBannerProps) {
           justifyContent: 'center',
           flexWrap: 'wrap',
           gap: 'clamp(18px, 2.6vw, 46px)',
-          padding: '26px clamp(150px, 13vw, 215px) 20px',
+          padding: '26px clamp(18px, 8vw, 215px) 20px',
           boxSizing: 'border-box',
+          maxWidth: '100%',
         }}
       >
         <div
           data-band-text="true"
           style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'center' }}
         >
-          <div style={{ ...mono, color: '#E01B24', display: 'flex', alignItems: 'center', gap: 10 }}>
-            <span style={{ width: 26, height: 1, background: '#E01B24', display: 'inline-block' }} />
-            POSTER DROP Nº 01 · FAN ART DEPT.
-          </div>
           <div
             style={{
               fontFamily: "'Unbounded', sans-serif",
@@ -171,6 +168,10 @@ export function HeroBanner({ delay = 3 }: HeroBannerProps) {
               color: '#FF6B6B',
               textShadow: '0 0 12px rgba(224, 27, 36, 0.55)',
               marginTop: 2,
+              textAlign: 'center',
+              maxWidth: '100%',
+              overflowWrap: 'anywhere',
+              whiteSpace: 'normal',
             }}
           >
             ITS TIME TO WEAVE SOME NETWORK
@@ -183,8 +184,11 @@ export function HeroBanner({ delay = 3 }: HeroBannerProps) {
             display: 'flex',
             alignItems: 'flex-start',
             justifyContent: 'center',
-            gap: 'clamp(8px, 0.9vw, 14px)',
-            maxWidth: '100%',
+            flexWrap: 'nowrap',
+            gap: 'clamp(6px, 2vw, 14px)',
+            width: '100%',
+            maxWidth: 420,
+            minWidth: 0,
           }}
         >
           {POSTERS.map((poster, i) => (
@@ -195,6 +199,8 @@ export function HeroBanner({ delay = 3 }: HeroBannerProps) {
                 {
                   '--tilt': `${poster.tilt}deg`,
                   margin: 0,
+                  flex: '1 1 0',
+                  minWidth: 0,
                   display: 'flex',
                   flexDirection: 'column',
                   gap: 6,
@@ -206,7 +212,8 @@ export function HeroBanner({ delay = 3 }: HeroBannerProps) {
               <div
                 style={{
                   position: 'relative',
-                  width: 'clamp(58px, 6.1vw, 86px)',
+                  width: '100%',
+                  maxWidth: 86,
                   aspectRatio: '3 / 4',
                   overflow: 'hidden',
                   isolation: 'isolate',
@@ -237,15 +244,18 @@ export function HeroBanner({ delay = 3 }: HeroBannerProps) {
                   }}
                 />
               </div>
-              <figcaption style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+              <figcaption style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1, maxWidth: '100%' }}>
                 <span
                   style={{
                     fontFamily: "'Unbounded', sans-serif",
                     fontWeight: 800,
-                    fontSize: 9.5,
+                    fontSize: 'clamp(7px, 2.4vw, 9.5px)',
                     letterSpacing: '0.06em',
                     color: '#F5F3F0',
                     whiteSpace: 'nowrap',
+                    maxWidth: '100%',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
                   }}
                 >
                   {poster.name}

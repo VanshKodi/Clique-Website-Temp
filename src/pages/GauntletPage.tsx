@@ -5,7 +5,8 @@ import { Footer } from '../components/Footer';
 import { Logo } from '../components/Logo';
 import { fireConfetti } from '../lib/confetti';
 import { BidArt, ClueCardArt, FightArt, SpiderDoodle } from '../components/ZoneArt';
-import { HeroBanner } from '../components/HeroBanner';
+import ignusRemastered from '../assets/banner/ignus-remastered.png';
+import ignusPosterFull from '../assets/banner/ignus-poster-full.png';
 import { GAUNTLET_META } from '../lib/content';
 import { GAUNTLET_REFERRALS } from '../lib/members';
 import { buildIcosahedron, drawIcosahedron, sizeCanvasToDisplay } from '../lib/icosahedron';
@@ -118,8 +119,8 @@ const TICKER: { text: string; color: string }[] = [
   { text: 'BIDDING WAR', color: 'var(--lime)' },
   { text: 'TEKKEN-STYLE FIGHT', color: 'var(--pink)' },
   { text: 'JUST FOR FUN', color: 'var(--lime)' },
-  { text: 'TUE · SEP 29', color: 'var(--accent)' },
-  { text: 'CR-4 · IMNU', color: 'var(--pink)' },
+  { text: 'SAT · OCT 3', color: 'var(--accent)' },
+  { text: 'VENUE TBA', color: 'var(--pink)' },
 ];
 
 function MetaPill({ children }: { children: string }) {
@@ -759,7 +760,22 @@ export function GauntletPage() {
           </div>
         </div>
 
-        <HeroBanner delay={0} />
+        {/* NEW POSTER DROP — IGNUS remastered banner (old HeroBanner moved to bottom) */}
+        <div
+          style={{
+            border: '1px dashed #FFFFFF33',
+            borderRadius: 22,
+            overflow: 'hidden',
+            background: '#0A0A0A',
+            marginBottom: 54,
+          }}
+        >
+          <img
+            src={ignusRemastered}
+            alt="IGNUS — Clique game night banner"
+            style={{ width: '100%', height: 'auto', display: 'block', objectFit: 'cover' }}
+          />
+        </div>
 
         {/* marquee strip */}
         <div
@@ -1082,6 +1098,23 @@ export function GauntletPage() {
               </div>
             </div>
           )}
+        </div>
+
+        {/* IGNUS poster — flattened full-dimension image so mobile just scales it like the top banner */}
+        <div
+          style={{
+            marginTop: 60,
+            border: '1px dashed #FFFFFF33',
+            borderRadius: 22,
+            overflow: 'hidden',
+            background: '#0A0406',
+          }}
+        >
+          <img
+            src={ignusPosterFull}
+            alt="IGNUS poster — Iron Man, Spider-Man, Dr Doom, Thor, Iron Man, Cap"
+            style={{ width: '100%', height: 'auto', display: 'block', objectFit: 'cover' }}
+          />
         </div>
       </main>
 
