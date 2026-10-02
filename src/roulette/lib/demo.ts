@@ -32,19 +32,19 @@ export function fileNameToName(fileName: string): string {
 }
 
 const ROSTER: { name: string; photo: string }[] = [
-  { name: 'Chinmay', photo: '/assets/members/Chinmay.jpeg' },
-  { name: 'Nandini', photo: '/assets/members/Nandini.jpeg' },
-  { name: 'Aryan', photo: '/assets/members/Aaryan.jpeg' },
-  { name: 'Dharm', photo: '/assets/members/Dharm.jpeg' },
-  { name: 'Raunak', photo: '/assets/members/Raunak.jpeg' },
-  { name: 'Sparsh', photo: '/assets/members/Sparsh.jpeg' },
-  { name: 'Dev', photo: '/assets/members/Dev.jpeg' },
-  { name: 'Ansh', photo: '/assets/members/Ansh.jpeg' },
-  { name: 'Raghav', photo: '/assets/members/Raghav.jpeg' },
-  { name: 'Bhavnish', photo: '/assets/members/Bhavnish.jpeg' },
-  { name: 'Rudraksh', photo: '/assets/members/Rudraksh.jpeg' },
-  { name: 'Dhun', photo: '/assets/members/Dhun.jpg' },
-  { name: 'Hardik', photo: '/assets/members/Hardik.jpeg' },
+  { name: 'Chinmay', photo: `${import.meta.env.BASE_URL}assets/members/Chinmay.jpeg` },
+  { name: 'Nandini', photo: `${import.meta.env.BASE_URL}assets/members/Nandini.jpeg` },
+  { name: 'Aryan', photo: `${import.meta.env.BASE_URL}assets/members/Aaryan.jpeg` },
+  { name: 'Dharm', photo: `${import.meta.env.BASE_URL}assets/members/Dharm.jpeg` },
+  { name: 'Raunak', photo: `${import.meta.env.BASE_URL}assets/members/Raunak.jpeg` },
+  { name: 'Sparsh', photo: `${import.meta.env.BASE_URL}assets/members/Sparsh.jpeg` },
+  { name: 'Dev', photo: `${import.meta.env.BASE_URL}assets/members/Dev.jpeg` },
+  { name: 'Ansh', photo: `${import.meta.env.BASE_URL}assets/members/Ansh.jpeg` },
+  { name: 'Raghav', photo: `${import.meta.env.BASE_URL}assets/members/Raghav.jpeg` },
+  { name: 'Bhavnish', photo: `${import.meta.env.BASE_URL}assets/members/Bhavnish.jpeg` },
+  { name: 'Rudraksh', photo: `${import.meta.env.BASE_URL}assets/members/Rudraksh.jpeg` },
+  { name: 'Dhun', photo: `${import.meta.env.BASE_URL}assets/members/Dhun.jpg` },
+  { name: 'Hardik', photo: `${import.meta.env.BASE_URL}assets/members/Hardik.jpeg` },
 ];
 
 export function demoPeople(): Person[] {
