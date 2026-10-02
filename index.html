@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/Clique-Website-Temp/logo.png" />
+    <link rel="apple-touch-icon" href="/Clique-Website-Temp/logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CLIQUE — The IT &amp; Analytics Club, IMNU</title>
+    <meta
+      name="description"
+      content="CLIQUE is the IT &amp; Analytics Club at the Institute of Management, Nirma University — where information technology, communications and media converge, and careers begin."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Shantell+Sans:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script type="module" crossorigin src="/Clique-Website-Temp/assets/index-Cu2d5wcT.js"></script>
+    <link rel="stylesheet" crossorigin href="/Clique-Website-Temp/assets/index-L1prQQ34.css">
+  </head>
+  <body>
+    <!--
+      Restores the real route after the 404.html SPA redirect (GitHub Pages).
+      Decodes the ?/ path back into the address bar before the router mounts.
+    -->
+    <script type="text/javascript">
+      (function (l) {
+        if (l.search[1] === '/') {
+          var decoded = l.search
+            .slice(1)
+            .split('&')
+            .map(function (s) {
+              return s.replace(/~and~/g, '&');
+            })
+            .join('?');
+          window.history.replaceState(null, null, l.pathname.slice(0, -1) + decoded + l.hash);
+        }
+      })(window.location);
+    </script>
+    <div id="root"></div>
+  </body>
+</html>
