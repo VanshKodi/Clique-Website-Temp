@@ -4,7 +4,7 @@ import { SectionTag } from './SectionTag';
 
 const card: React.CSSProperties = {
   display: 'grid',
-  gridTemplateColumns: '240px minmax(0, 1fr)',
+  gridTemplateColumns: '1fr',
   gap: 0,
   border: '1px solid #FFFFFF14',
   borderRadius: 18,
@@ -84,13 +84,13 @@ export function Events() {
       <div style={{ display: 'grid', gap: 22 }}>
         {EVENTS.map((e) => (
           <article key={e.id} className="evt-card" style={card}>
-            {/* poster */}
-            <div style={{ position: 'relative', minHeight: 300, background: '#000' }}>
+            {/* poster: full-width banner at its natural ratio, never cropped */}
+            <div style={{ position: 'relative', background: '#000', borderBottom: '1px solid #FFFFFF14' }}>
               {e.poster ? (
                 <img
                   src={e.poster}
                   alt={e.title}
-                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }}
+                  style={{ display: 'block', width: '100%', height: 'auto', maxHeight: '40vh', objectFit: 'contain' }}
                 />
               ) : null}
               {e.status === 'LIVE' && (
@@ -214,10 +214,6 @@ export function Events() {
 
       <style>{`
         .evt-card:hover { border-color: color-mix(in oklab, var(--accent) 55%, transparent); transform: translateY(-3px); }
-        @media (max-width: 760px) {
-          .evt-card { grid-template-columns: 1fr !important; }
-          .evt-card > div:first-child { min-height: 220px !important; }
-        }
       `}</style>
     </section>
   );

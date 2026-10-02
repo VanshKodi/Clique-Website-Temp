@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { EVENT_POPUP, EVENTS } from '../lib/events';
 
 const SCHEDULE_KEY = 'clique:evt-popup-shown-at';
-const CLOSED_KEY = 'clique:evt-popup-closed-at';
 const DAY_MS = 86_400_000;
 
 const read = (key: string): number | null => {
@@ -39,17 +38,11 @@ const withinSchedule =
   Date.now() >= Date.parse(EVENT_POPUP.startsAt) &&
   Date.now() - firstShownAt < EVENT_POPUP.hideAfterDays * DAY_MS;
 
-// Manual close holds the popup for the rest of the 2-day window too.
-const alreadyClosed = (() => {
-  const closedAt = read(CLOSED_KEY);
-  return closedAt !== null && Date.now() - closedAt < EVENT_POPUP.hideAfterDays * DAY_MS;
-})();
-
 export function EventPopup() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    if (!withinSchedule || alreadyClosed) return;
+    if (!withinSchedule) return;
     const t = window.setTimeout(() => setVisible(true), 3800);
     return () => window.clearTimeout(t);
   }, []);
@@ -65,10 +58,7 @@ export function EventPopup() {
   if (!visible) return null;
   const event = EVENTS[0];
 
-  const close = () => {
-    write(CLOSED_KEY, Date.now());
-    setVisible(false);
-  };
+  const close = () => setVisible(false);
 
   return (
     <div
@@ -142,41 +132,33 @@ export function EventPopup() {
           ×
         </button>
 
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1.1fr)',
-            gap: 0,
-          }}
-          className="evt-popup-grid"
-        >
-          <div style={{ position: 'relative', minHeight: 260, background: '#000' }}>
-            <img
-              src={event.poster}
-              alt={event.title}
-              style={{
-                position: 'absolute',
-                inset: 0,
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                objectPosition: 'center top',
-              }}
-            />
-          </div>
+        {/* poster: full-width banner at its natural 3:1 ratio, never cropped */}
+        <div style={{ background: '#000', borderBottom: '1px solid #FFFFFF14' }}>
+          <img
+            src={event.poster}
+            alt={event.title}
+            style={{
+              display: 'block',
+              width: '100%',
+              height: 'auto',
+              maxHeight: '34vh',
+              objectFit: 'contain',
+            }}
+          />
+        </div>
 
-          <div style={{ padding: 'clamp(24px, 4vw, 42px)', boxSizing: 'border-box' }}>
-            <div
-              style={{
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: 11,
-                letterSpacing: '0.24em',
-                color: 'var(--accent)',
-                marginBottom: 14,
-              }}
-            >
-              {event.kicker}
-            </div>
+        <div style={{ padding: 'clamp(24px, 4vw, 42px)', boxSizing: 'border-box' }}>
+          <div
+            style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: 11,
+              letterSpacing: '0.24em',
+              color: 'var(--accent)',
+              marginBottom: 14,
+            }}
+          >
+            {event.kicker}
+          </div>
             <h2
               style={{
                 margin: '0 0 6px',
@@ -274,15 +256,7 @@ export function EventPopup() {
               AUTO-DISMISSES IN {EVENT_POPUP.hideAfterDays} DAYS
             </div>
           </div>
-        </div>
       </div>
-
-      <style>{`
-        @media (max-width: 720px) {
-          .evt-popup-grid { grid-template-columns: 1fr !important; }
-          .evt-popup-grid > div:first-child { min-height: 170px !important; max-height: 34vh; }
-        }
-      `}</style>
     </div>
   );
 }
