@@ -25,6 +25,8 @@ export const Nav = forwardRef<HTMLElement, NavProps>(({ soundEnabled, onToggleSo
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
+      flexWrap: 'wrap',
+      gap: '10px 16px',
       padding: '18px 32px',
       background: '#0B0B0B66',
       backdropFilter: 'blur(14px)',
@@ -43,6 +45,8 @@ export const Nav = forwardRef<HTMLElement, NavProps>(({ soundEnabled, onToggleSo
       data-mnavlinks="true"
       style={{
         display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'flex-end',
         gap: 28,
         alignItems: 'center',
         fontFamily: "'JetBrains Mono', monospace",
