@@ -31,26 +31,27 @@ export function fileNameToName(fileName: string): string {
     .join(' ');
 }
 
-const DEMO_NAMES = [
-  'Aarav Sharma',
-  'Diya Patel',
-  'Rohan Mehta',
-  'Ananya Iyer',
-  'Kabir Singh',
-  'Meera Nair',
-  'Arjun Rao',
-  'Sana Khan',
-  'Vivaan Gupta',
-  'Ishita Bose',
-  'Neel Joshi',
-  'Tara Menon',
+const ROSTER: { name: string; photo: string }[] = [
+  { name: 'Chinmay Patel', photo: '/assets/members/Chinmay.jpeg' },
+  { name: 'Nandini Agarwal', photo: '/assets/members/Nandini.jpeg' },
+  { name: 'Aryan Patel', photo: '/assets/members/Aaryan.jpeg' },
+  { name: 'Dharm Thummar', photo: '/assets/members/Dharm.jpeg' },
+  { name: 'Raunak Prasad', photo: '/assets/members/Raunak.jpeg' },
+  { name: 'Sparsh Partani', photo: '/assets/members/Sparsh.jpeg' },
+  { name: 'Dev Mehta', photo: '/assets/members/Dev.jpeg' },
+  { name: 'Ansh Shah', photo: '/assets/members/Ansh.jpeg' },
+  { name: 'Raghav Joshi', photo: '/assets/members/Raghav.jpeg' },
+  { name: 'Bhavnish Nanda', photo: '/assets/members/Bhavnish.jpeg' },
+  { name: 'Rudraksh Chhabra', photo: '/assets/members/Rudraksh.jpeg' },
+  { name: 'Dhun Chhabra', photo: '/assets/members/Dhun.jpg' },
+  { name: 'Hardik Jain', photo: '/assets/members/Hardik.jpeg' },
 ];
 
 export function demoPeople(): Person[] {
-  return DEMO_NAMES.map((name, i) => ({
+  return ROSTER.map((p, i) => ({
     id: `demo-${i + 1}`,
-    name,
-    photo: avatarDataUrl(name, i),
+    name: p.name,
+    photo: p.photo,
     present: true,
   }));
 }

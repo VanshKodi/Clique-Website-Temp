@@ -162,8 +162,8 @@ export const useRouletteStore = create<RouletteState>()(
       markInitialized: () => set({ initialized: true }),
     }),
     {
-      name: 'team-roulette:v1',
-      version: 1,
+      name: 'team-roulette:v2',
+      version: 2,
       storage: safeStorage,
       migrate: (persisted) => persisted as RouletteState,
       partialize: (s) => ({
