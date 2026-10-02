@@ -19,6 +19,8 @@ import { Focus } from '../components/Focus';
 import { Wall } from '../components/Wall';
 import { DriftStrip } from '../components/DriftStrip';
 import { People } from '../components/People';
+import { Events } from '../components/Events';
+import { EventPopup } from '../components/EventPopup';
 import { Join } from '../components/Join';
 import { Footer } from '../components/Footer';
 
@@ -98,8 +100,10 @@ export function HomePage() {
       <Wall />
       <DriftStrip />
       <People />
+      <Events />
       <Join joinCanvasRef={joinCanvasRef} />
       <Footer />
+      <EventPopup />
     </div>
   );
 }

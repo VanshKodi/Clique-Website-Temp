@@ -14,6 +14,7 @@ export const NAV_LINKS = [
   { href: '#story', label: 'STORY' },
   { href: '#focus', label: 'FOCUS' },
   { href: '#wall', label: 'WALL' },
+  { href: '#events', label: 'EVENTS' },
   { href: '#people', label: 'PEOPLE' },
 ];
 
