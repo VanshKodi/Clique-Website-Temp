@@ -647,7 +647,7 @@ export function GauntletPage() {
             {GAUNTLET_META.issue}
           </span>
         </Link>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
           <Link to="/join" className="hover-accent" style={{ ...mono, fontSize: 11, color: '#9A948C', textDecoration: 'none' }}>
             ← JOIN
           </Link>
@@ -1037,7 +1037,9 @@ export function GauntletPage() {
                     borderRadius: 100,
                     willChange: 'translate',
                     opacity: status === 'sending' ? 0.75 : 1,
-                    minWidth: 260,
+                    minWidth: 0,
+                    maxWidth: '100%',
+                    boxSizing: 'border-box',
                     boxShadow: '4px 4px 0 #00000080, 0 0 26px #4ADE8055',
                   }}
                 >
