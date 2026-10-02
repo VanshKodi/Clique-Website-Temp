@@ -32,19 +32,19 @@ export function fileNameToName(fileName: string): string {
 }
 
 const ROSTER: { name: string; photo: string }[] = [
-  { name: 'Chinmay Patel', photo: '/assets/members/Chinmay.jpeg' },
-  { name: 'Nandini Agarwal', photo: '/assets/members/Nandini.jpeg' },
-  { name: 'Aryan Patel', photo: '/assets/members/Aaryan.jpeg' },
-  { name: 'Dharm Thummar', photo: '/assets/members/Dharm.jpeg' },
-  { name: 'Raunak Prasad', photo: '/assets/members/Raunak.jpeg' },
-  { name: 'Sparsh Partani', photo: '/assets/members/Sparsh.jpeg' },
-  { name: 'Dev Mehta', photo: '/assets/members/Dev.jpeg' },
-  { name: 'Ansh Shah', photo: '/assets/members/Ansh.jpeg' },
-  { name: 'Raghav Joshi', photo: '/assets/members/Raghav.jpeg' },
-  { name: 'Bhavnish Nanda', photo: '/assets/members/Bhavnish.jpeg' },
-  { name: 'Rudraksh Chhabra', photo: '/assets/members/Rudraksh.jpeg' },
-  { name: 'Dhun Chhabra', photo: '/assets/members/Dhun.jpg' },
-  { name: 'Hardik Jain', photo: '/assets/members/Hardik.jpeg' },
+  { name: 'Chinmay', photo: '/assets/members/Chinmay.jpeg' },
+  { name: 'Nandini', photo: '/assets/members/Nandini.jpeg' },
+  { name: 'Aryan', photo: '/assets/members/Aaryan.jpeg' },
+  { name: 'Dharm', photo: '/assets/members/Dharm.jpeg' },
+  { name: 'Raunak', photo: '/assets/members/Raunak.jpeg' },
+  { name: 'Sparsh', photo: '/assets/members/Sparsh.jpeg' },
+  { name: 'Dev', photo: '/assets/members/Dev.jpeg' },
+  { name: 'Ansh', photo: '/assets/members/Ansh.jpeg' },
+  { name: 'Raghav', photo: '/assets/members/Raghav.jpeg' },
+  { name: 'Bhavnish', photo: '/assets/members/Bhavnish.jpeg' },
+  { name: 'Rudraksh', photo: '/assets/members/Rudraksh.jpeg' },
+  { name: 'Dhun', photo: '/assets/members/Dhun.jpg' },
+  { name: 'Hardik', photo: '/assets/members/Hardik.jpeg' },
 ];
 
 export function demoPeople(): Person[] {
