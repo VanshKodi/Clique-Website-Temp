@@ -6,7 +6,7 @@ import tailwindcss from '@tailwindcss/vite';
 // so use an absolute base. (A relative './' base breaks React Router:
 // BASE_URL becomes './', which normalizes to basename '/.' and matches nothing.)
 export default defineConfig({
-  base: process.env.PAGES_BASE || '/',
+  base: process.env.PAGES_BASE || '/Clique-Website-Temp/',
   plugins: [react(), tailwindcss()],
   preview: {
     allowedHosts: ['clique-website-temp-production.up.railway.app', 'cliquetemp.vanshkodi.in'],
