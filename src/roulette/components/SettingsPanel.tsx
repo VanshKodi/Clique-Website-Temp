@@ -166,6 +166,19 @@ export function SettingsPanel() {
           </p>
         ) : null}
       </div>
+
+      <button
+        type="button"
+        onClick={() => {
+          if (window.confirm('Reset everything? This clears all saved data and reloads.')) {
+            localStorage.removeItem('team-roulette:v2');
+            window.location.reload();
+          }
+        }}
+        className="mt-4 w-full rounded-lg border border-red-500/50 bg-red-500/10 px-3 py-2 text-sm font-bold text-red-400 transition hover:bg-red-500/20"
+      >
+        Reset All Data
+      </button>
     </div>
   );
 }
